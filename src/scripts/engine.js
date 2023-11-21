@@ -22,8 +22,8 @@ const state = {
 }
 
 const playerSides = {
-    player1: "player-field-card",
-    computer: "computer-field-card"
+    player1: "player-cards",
+    computer: "computer-cards"
 }
 
 const pathImages = "./src/assets/icons/"
@@ -86,7 +86,7 @@ async function drawCards(cardNumbers, fieldSide) {
     for (let i = 0; i < cardNumbers; i++) {
         const randomIdCard = await getRandomCardId()
         const cardImage = await createCardImage(randomIdCard, fieldSide)
-        console.log(fieldSide)
+        
         document.getElementById(fieldSide).appendChild(cardImage)
     }
 }
