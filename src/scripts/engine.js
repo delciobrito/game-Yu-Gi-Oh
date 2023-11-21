@@ -82,6 +82,24 @@ async function createCardImage(idCard, fieldSide) {
     return cardImage
 }
 
+async function setCardsField(cardId) {
+
+    await removeAllCardsImage()
+
+    let computerCardId = await getRandomCardId()
+
+    state.fielCards.player.style.display = "block"
+    state.fielCards.player.style.computer = "block"
+
+    state.fielCards.player.src = cardData[cardId].img
+    state.fielCards.computer.src = cardData[computerCardId].img
+
+    let duelResults = await checkDuelResults(cardId, computerCardId)
+
+    await updateScore()
+    await drawButton(duelResults)
+}
+
 async function drawSelectCard(index) {
     state.cardSprites.avatar.src = cardData[index].img
     state.cardSprites.name.innerText = cardData[index].name
