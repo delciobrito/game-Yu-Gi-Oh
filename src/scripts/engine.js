@@ -89,11 +89,9 @@ async function setCardsField(cardId) {
 
     let computerCardId = await getRandomCardId()
 
-    state.fielCards.player.style.display = "block"
-    state.fielCards.computer.style.display = "block"
+    await showHiddenCardFieldsImage(true)
 
-    state.fielCards.player.src = cardData[cardId].img
-    state.fielCards.computer.src = cardData[computerCardId].img
+    await drawCardsInField(cardId, computerCardId)
 
     let duelResults = await checkDuelResults(cardId, computerCardId)
 
@@ -103,6 +101,31 @@ async function setCardsField(cardId) {
 
 async function updateScore() {
     state.score.scoreBox.innerText = `Win: ${state.score.playerScore} | Lose: ${state.score.computerScore}` 
+}
+
+async function drawCardsInField(cardId, computerCardId) {
+    state.fielCards.player.src = cardData[cardId].img
+    state.fielCards.computer.src = cardData[computerCardId].img
+}
+
+async function showHiddenCardFieldsImage(value) {
+
+    if( value === true) {
+        state.fielCards.player.style.display = "block"
+        state.fielCards.computer.style.display = "block"
+    } 
+    
+    else if( value === false) {
+        state.fielCards.player.style.display = "none"
+        state.fielCards.computer.style.display = "none"
+    }
+}
+
+async function hiddenCardDetails() {
+    
+    state.cardSprites.avatar.src = ""
+    state.cardSprites.name.innerText = "Selecione"
+    state.cardSprites.type.innerText = "uma carta"
 }
 
 async function drawButton(text) {
@@ -154,14 +177,13 @@ async function drawCards(cardNumbers, fieldSide) {
 }
 
 async function resetDuel() {
-    state.cardSprites.avatar.src = ""
+   
+    await hiddenCardDetails()
+    
+    await showHiddenCardFieldsImage(false)
+
     state.actions.button.style.display = "none"
-
-    state.fielCards.player.style.display = "none"
-    state.fielCards.computer.style.display = "none"
-
-    state.cardSprites.name.innerText = "Selecione"
-    state.cardSprites.type.innerText = "uma carta"
+   
     init()
 }
 
